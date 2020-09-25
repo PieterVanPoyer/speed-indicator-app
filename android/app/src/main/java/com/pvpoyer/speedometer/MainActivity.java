@@ -50,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
-    private LocationCallback locationCallback = new LocationChangedHandler(this);
+    private LocationChangedHandler locationCallback = new LocationChangedHandler(this);
     private GoogleApiClient mApiClient;
 
     private BroadcastReceiver activeReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            MainActivity.this.locationCallback.userIsActive();
             TextView currentActivity = MainActivity.this.findViewById(R.id.my_current_activity);
             currentActivity.setText("Active");
         }
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            MainActivity.this.locationCallback.userIsStandingStill();
+
             TextView currentActivity = MainActivity.this.findViewById(R.id.my_current_activity);
             currentActivity.setText("Still");
         }

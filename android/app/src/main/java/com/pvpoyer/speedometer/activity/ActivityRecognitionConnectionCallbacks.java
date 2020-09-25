@@ -18,6 +18,13 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Only the activity changes are detected. I did not found an easy way to detect the currect activity without the transition.
+ * So when the activity is destroyed, we must wait untill a transition (from STILL to WALKING or something like that) occurs, before acting on it.
+ *
+ * We always starts with the assumption that the user is active. (Strange, because mostly the user is not active when starting the app.
+ *      But there is no easy way to know for now)
+ */
 public class ActivityRecognitionConnectionCallbacks implements GoogleApiClient.ConnectionCallbacks {
 
     private Activity activity;
@@ -43,18 +50,6 @@ public class ActivityRecognitionConnectionCallbacks implements GoogleApiClient.C
         transitions.add(
                 new ActivityTransition.Builder()
                         .setActivityType(DetectedActivity.STILL)
-                        .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_EXIT)
-                        .build());
-
-        transitions.add(
-                new ActivityTransition.Builder()
-                        .setActivityType(DetectedActivity.WALKING)
-                        .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_ENTER)
-                        .build());
-
-        transitions.add(
-                new ActivityTransition.Builder()
-                        .setActivityType(DetectedActivity.WALKING)
                         .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_EXIT)
                         .build());
 
